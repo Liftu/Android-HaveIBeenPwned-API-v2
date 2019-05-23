@@ -6,4 +6,5 @@
     <string name="random_button">Random</string>
     <string name="random_number_textView">Here is a random number between 0 and %1d</string>
     <string name="random_number">R</string>
+    <string name="searchName">Name</string>
 </resources>
