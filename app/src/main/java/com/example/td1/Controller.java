@@ -1,13 +1,20 @@
 package com.example.td1;
 
+import android.content.SharedPreferences;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,15 +25,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Controller {
 
     static final String BASE_URL = "https://haveibeenpwned.com/api/v2/";
-
     private MainActivity view;
-
+    private SharedPreferences sharedPreferences;
     private  List<Breaches> breachesList;
 
-    public Controller(MainActivity view) {
+
+    public Controller(MainActivity view, SharedPreferences sharedPreferences) {
         this.view = view;
+        this.sharedPreferences = sharedPreferences;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void start() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -39,33 +48,58 @@ public class Controller {
 
         HibpRestAPI gerritAPI = retrofit.create(HibpRestAPI.class);
 
+        view.showProgressBar();
         Call<List<Breaches>> call = gerritAPI.getBreachesList();
         call.enqueue(new Callback<List<Breaches>>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<List<Breaches>> call, Response<List<Breaches>> response) {
                 if(response.isSuccessful()) {
+                    view.displayToast("Connection successfull");
                     breachesList = response.body();
-                    view.showList(breachesList);
+                    storeDataToCache();
                 } else {
+                    view.displayToast("Connection failure");
                     System.out.println(response.errorBody());
+                    getDataFromCache();
                 }
+                view.hideProgressBar();
+                view.showList(breachesList);
             }
 
             @Override
             public void onFailure(Call<List<Breaches>> call, Throwable t) {
-                t.printStackTrace();
+                view.displayToast("Connection failure");
+                getDataFromCache();
+                view.hideProgressBar();
+                view.showList(breachesList);
             }
         });
-
     }
+
+
+    private void storeDataToCache() {
+        String breachesListJsonString = new Gson().toJson(breachesList);
+        sharedPreferences.edit().putString("breachesListJsonString", breachesListJsonString).apply();
+    }
+
+    private void getDataFromCache() {
+        String breachesListJsonString = sharedPreferences.getString("breachesListJsonString", null);
+        if (breachesListJsonString != null && !TextUtils.isEmpty(breachesListJsonString)) {
+            breachesList = new Gson().fromJson(breachesListJsonString, new TypeToken<List<Breaches>>(){}.getType());
+        }
+        else
+            breachesList = new ArrayList<Breaches>();
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onClickFilter(String filtre) {
+    public void onFilter(String filtre) {
         // TODO
         List<Breaches> filteredBreachesList = new ArrayList<>();
         for (Breaches breach : breachesList)
         {
-            if (breach.getTitle().toLowerCase().indexOf(filtre.toLowerCase()) != -1)
+            if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
                 filteredBreachesList.add(breach);
         }
         view.showList(filteredBreachesList);

@@ -8,9 +8,12 @@ import android.support.annotation.RequiresApi;
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -22,52 +25,63 @@ public class MainActivity extends Activity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
-
-    private EditText editText;
-    private Button btn;
+    private SearchView searchBar;
+    private ProgressBar progressBar;
 
     private Controller controller;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        editText =  findViewById(R.id.editTextSearch);
-        btn =  findViewById(R.id.buttonSearch);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        searchBar = (SearchView) findViewById(R.id.searchViewBar);
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                String text = editText.getText().toString();
-                controller.onClickFilter(text);
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                controller.onFilter(newText);
+                return true;
             }
         });
 
-
-        controller = new Controller(this);
+        controller = new Controller(this, this.getSharedPreferences("user_preferences", MODE_PRIVATE));
         controller.start();
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void showList(List<Breaches> breachesList) {
-        // use this setting to
-        // improve performance if you know that changes
-        // in content do not change the layout size
-        // of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        final List<Breaches> breaches = new ArrayList<>();
-        for (int i = 0; i < breachesList.size(); i++) {
-            breaches.add(breachesList.get(i));
-        }// define an adapter
-        breaches.sort(Comparator.comparingInt(Breaches::getPwnCount).reversed());
-        mAdapter = new MyAdapter(breaches, getBaseContext(), getListener());
-        recyclerView.setAdapter(mAdapter);
+
+        if (breachesList != null) {
+            // use this setting to
+            // improve performance if you know that changes
+            // in content do not change the layout size
+            // of the RecyclerView
+            recyclerView.setHasFixedSize(true);
+            // use a linear layout manager
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+
+            final List<Breaches> breaches = new ArrayList<>();
+            for (int i = 0; i < breachesList.size(); i++) {
+                breaches.add(breachesList.get(i));
+            }// define an adapter
+
+            breaches.sort(Comparator.comparingInt(Breaches::getPwnCount).reversed());
+            mAdapter = new MyAdapter(breaches, getBaseContext(), getListener());
+            recyclerView.setAdapter(mAdapter);
+        }
     }
+
 
     private MyAdapter.OnItemClickListener getListener() {
         return new MyAdapter.OnItemClickListener() {
@@ -78,6 +92,7 @@ public class MainActivity extends Activity {
         };
     }
 
+
     public void navigateToDetail(String json) {
         //remove(position);
         Intent breachIntent = new Intent(this, BreachActivity.class);
@@ -85,6 +100,19 @@ public class MainActivity extends Activity {
         startActivity(breachIntent);
     }
 
+    public void displayToast(String message)
+    {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
+    public void showProgressBar()
+    {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar()
+    {
+        progressBar.setVisibility(View.GONE);
+    }
 
 }

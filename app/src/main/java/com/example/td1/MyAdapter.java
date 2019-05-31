@@ -1,24 +1,25 @@
 package com.example.td1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private final Context context;
     private List<Breaches> values;
     private final OnItemClickListener listener;
+
 
     public interface OnItemClickListener {
         void onItemClick(Breaches item);
@@ -89,7 +90,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         Picasso.with(context).load(currentBreach.getLogoPath()).into(holder.image);
 
-        holder.txtFooter.setText(String.valueOf(currentBreach.getPwnCount()) + " pwns");
+        holder.txtFooter.setText(String.format("%,d", currentBreach.getPwnCount()) + " pwns");
     }
 
     // Return the size of your dataset (invoked by the layout manager)
