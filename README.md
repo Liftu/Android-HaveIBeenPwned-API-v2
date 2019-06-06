@@ -4,6 +4,18 @@ Just an Android interface to the Have I Been Pwned API
 ## Presentation
 Une application toute simple utilisant l'API de site Have I Been Pwned afin d'afficher la liste des differents leaks ayants été référancé.
 
+## Consignes
+- Le minimum :
+  - Deux écrans : Un écran avec une liste et un écran avec un détail de l’item (Fait)
+  - Appel WebService à une API Rest (Fait)
+  - Stockage des données en cache (Fait)
+- Les plus :
+  - Architecture (MVC ou MVP ou MVVM) (Fait)
+  - Gitflow (Fait)
+  - Animation entre écrans
+  - Notifications Push (Firebase)
+  - Autres fonctionnalités (Fait : barre de recherche + toasts)
+
 ## Fonctionnalites
 ### Ecran principal :
 - Affichage de la liste des leaks sous forme de cartes les unes a la suite des autres
