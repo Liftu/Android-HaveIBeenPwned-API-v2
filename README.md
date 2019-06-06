@@ -12,7 +12,7 @@ Une application toute simple utilisant l'API de site Have I Been Pwned afin d'af
 - Les plus :
   - Architecture (MVC ou MVP ou MVVM) (Fait)
   - Gitflow (Fait)
-  - Animation entre écrans
+  - Animation entre écrans (Fait)
   - Notifications Push (Firebase)
   - Autres fonctionnalités (Fait : barre de recherche + toasts)
 
@@ -37,3 +37,7 @@ Une application toute simple utilisant l'API de site Have I Been Pwned afin d'af
   - Les types de données sont affichés via une ListView afin de pouvoir scroller s'il y en a trop pour etre affiché a l'écran
   
 <img src="readme-img/second_activity.png" alt="second activity"> <img src="readme-img/second_activity_list_view.png" alt="second activity list view">
+
+- Animation lors de l'ouverture de l'écran secondaire (la seconde activié arrive par la droite)
+<img src="readme-img/screen_change_animation.png" alt="change screen animation">
+
