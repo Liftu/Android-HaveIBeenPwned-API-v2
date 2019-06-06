@@ -62,22 +62,10 @@ public class MainActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void showList(List<Breaches> breachesList) {
-
         if (breachesList != null) {
-            // use this setting to
-            // improve performance if you know that changes
-            // in content do not change the layout size
-            // of the RecyclerView
             recyclerView.setHasFixedSize(true);
-            // use a linear layout manager
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
-
-            //final List<Breaches> breaches = new ArrayList<>();
-
-//            for (int i = 0; i < breachesList.size(); i++) {
-//                breaches.add(breachesList.get(i));
-//            }// define an adapter
 
             breachesList.sort(Comparator.comparingInt(Breaches::getPwnCount).reversed());
             mAdapter = new MyAdapter(breachesList, getBaseContext(), getListener());
@@ -97,7 +85,6 @@ public class MainActivity extends Activity {
 
 
     public void navigateToDetail(String json) {
-        //remove(position);
         Intent breachIntent = new Intent(this, BreachActivity.class);
         breachIntent.putExtra(Constants.current_breach_intent_key, json);
         startActivity(breachIntent);
