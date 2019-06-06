@@ -16,7 +16,7 @@ Une application toute simple utilisant l'API de site Have I Been Pwned afin d'af
 <img src="img-readme/connection_failure.png" alt="connection failure">
 
 ### Ecran secondaire
-<img src="readme-img/ssecond_activity.png" alt="second activity">
+<img src="readme-img/second_activity.png" alt="second activity">
 - Affichage global toujour sous forme de carte
 - Affichage du logo, titre, nom de domaine, nombre de données leakés, date du leak et les types de données.
 - Les types de données sont affichés via une ListView afin de pouvoir scroller si il y en a trop pour etre afficher a l'ecran
