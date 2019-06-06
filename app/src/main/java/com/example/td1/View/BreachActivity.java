@@ -17,6 +17,7 @@ public class BreachActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(R.xml.slide_in, R.xml.slide_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breach);
         showBreachDetails();
