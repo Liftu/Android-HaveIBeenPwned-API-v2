@@ -1,4 +1,4 @@
-package com.example.td1;
+package com.example.td1.View;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +7,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.td1.Controller.Constants;
 import com.example.td1.Model.Breaches;
+import com.example.td1.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 

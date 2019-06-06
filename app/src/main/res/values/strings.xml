@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TD1</string>
+    <string name="app_name">HaveIBeenPwned API</string>
     <string name="searchName">Name</string>
     <string name="searchButton">Search</string>
     <string name="DataTypesText">Leaked data types :</string>
