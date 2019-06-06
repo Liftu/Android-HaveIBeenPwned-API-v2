@@ -95,7 +95,6 @@ public class Controller {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onFilter(String filtre) {
-        // TODO
         List<Breaches> filteredBreachesList = new ArrayList<>();
         for (Breaches breach : breachesList)
         {
