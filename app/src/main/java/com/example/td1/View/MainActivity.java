@@ -1,4 +1,4 @@
-package com.example.td1;
+package com.example.td1.View;
 
 import android.content.Intent;
 import android.os.Build;
@@ -13,7 +13,10 @@ import android.widget.SearchView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.td1.Controller.Constants;
+import com.example.td1.Controller.Controller;
 import com.example.td1.Model.Breaches;
+import com.example.td1.R;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -70,13 +73,14 @@ public class MainActivity extends Activity {
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
 
-            final List<Breaches> breaches = new ArrayList<>();
-            for (int i = 0; i < breachesList.size(); i++) {
-                breaches.add(breachesList.get(i));
-            }// define an adapter
+            //final List<Breaches> breaches = new ArrayList<>();
 
-            breaches.sort(Comparator.comparingInt(Breaches::getPwnCount).reversed());
-            mAdapter = new MyAdapter(breaches, getBaseContext(), getListener());
+//            for (int i = 0; i < breachesList.size(); i++) {
+//                breaches.add(breachesList.get(i));
+//            }// define an adapter
+
+            breachesList.sort(Comparator.comparingInt(Breaches::getPwnCount).reversed());
+            mAdapter = new MyAdapter(breachesList, getBaseContext(), getListener());
             recyclerView.setAdapter(mAdapter);
         }
     }
