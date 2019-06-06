@@ -1,20 +1,20 @@
 package com.example.td1;
 
 import android.content.SharedPreferences;
-import java.lang.reflect.Type;
+
+import com.example.td1.Model.Breaches;
+import com.example.td1.Model.HibpRestAPI;
+import com.example.td1.View.MainActivity;
 import com.google.gson.reflect.TypeToken;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,11 +80,11 @@ public class Controller {
 
     private void storeDataToCache() {
         String breachesListJsonString = new Gson().toJson(breachesList);
-        sharedPreferences.edit().putString("breachesListJsonString", breachesListJsonString).apply();
+        sharedPreferences.edit().putString(Constants.breaches_list_json_string, breachesListJsonString).apply();
     }
 
     private void getDataFromCache() {
-        String breachesListJsonString = sharedPreferences.getString("breachesListJsonString", null);
+        String breachesListJsonString = sharedPreferences.getString(Constants.breaches_list_json_string, null);
         if (breachesListJsonString != null && !TextUtils.isEmpty(breachesListJsonString)) {
             breachesList = new Gson().fromJson(breachesListJsonString, new TypeToken<List<Breaches>>(){}.getType());
         }

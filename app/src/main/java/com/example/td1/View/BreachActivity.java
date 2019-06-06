@@ -1,6 +1,5 @@
 package com.example.td1;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -8,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.td1.Model.Breaches;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +28,7 @@ public class BreachActivity extends AppCompatActivity {
         TextView breachDateValueView =          (TextView) findViewById(R.id.textViewDateValue);
         ListView breachDataTypesValuesView =    (ListView) findViewById(R.id.ListViewDataTypesValues);
 
-        Breaches breach = new Gson().fromJson(getIntent().getStringExtra(Constants.currentBreachIntentKey), Breaches.class);
+        Breaches breach = new Gson().fromJson(getIntent().getStringExtra(Constants.current_breach_intent_key), Breaches.class);
 
         Picasso.with(getBaseContext()).load(breach.getLogoPath()).into(breachLogoView);
         breachTitleView.setText(breach.getTitle());
