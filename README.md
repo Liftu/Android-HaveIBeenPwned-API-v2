@@ -13,7 +13,7 @@ Une application toute simple utilisant l'API de site Have I Been Pwned afin d'af
   - Architecture (MVC ou MVP ou MVVM) (Fait)
   - Gitflow (Fait)
   - Animation entre écrans (Fait)
-  - Notifications Push (Firebase)
+  - Notifications Push
   - Autres fonctionnalités (Fait : barre de recherche + toasts)
 
 ## Fonctionnalites
