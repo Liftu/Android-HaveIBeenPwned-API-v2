@@ -9,4 +9,7 @@
     <string name="dateText">Date :</string>
     <string name="breach_logo_description_text">Breach Logo</string>
     <string name="breach_title">Breach title</string>
+    <string name="bottom_navigation_menu_breaches_list">Breaches list</string>
+    <string name="bottom_navigation_menu_check_email">Check email</string>
+    <string name="bottom_navigation_menu_graph">Graph</string>
 </resources>

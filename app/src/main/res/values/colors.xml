@@ -2,5 +2,6 @@
 <resources>
     <color name="colorPrimary">#FF005C</color>
     <color name="colorPrimaryDark">#BB0044</color>
-    <color name="buttonBackground">@color/colorPrimary</color>
+    <color name="colorAccentDark">#880E4F</color>
+    <color name="white">#FFFFFF</color>
 </resources>

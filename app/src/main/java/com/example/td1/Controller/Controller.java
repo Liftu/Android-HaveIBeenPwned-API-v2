@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.example.td1.Model.Breaches;
 import com.example.td1.Model.HibpRestAPI;
 import com.example.td1.View.MainActivity;
+import com.example.td1.View.MainFragment;
 import com.google.gson.reflect.TypeToken;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -24,18 +25,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Controller {
 
-    static final String BASE_URL = "https://haveibeenpwned.com/api/v2/";
-    private MainActivity view;
+    private static final String BASE_URL = "https://haveibeenpwned.com/api/v2/";
+    private MainFragment view;
     private SharedPreferences sharedPreferences;
     private  List<Breaches> breachesList;
 
 
-    public Controller(MainActivity view, SharedPreferences sharedPreferences) {
+    public Controller(MainFragment view, SharedPreferences sharedPreferences) {
         this.view = view;
         this.sharedPreferences = sharedPreferences;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void start() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -51,7 +51,6 @@ public class Controller {
         view.showProgressBar();
         Call<List<Breaches>> call = gerritAPI.getBreachesList();
         call.enqueue(new Callback<List<Breaches>>() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<List<Breaches>> call, Response<List<Breaches>> response) {
                 if(response.isSuccessful()) {
@@ -93,7 +92,6 @@ public class Controller {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onFilter(String filtre) {
         List<Breaches> filteredBreachesList = new ArrayList<>();
         for (Breaches breach : breachesList)
