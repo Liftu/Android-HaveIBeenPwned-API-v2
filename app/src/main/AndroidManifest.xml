@@ -15,7 +15,7 @@
             android:name="com.google.android.actions"
             android:resource="@xml/slide_out" />
 
-        <activity android:name=".View.BreachActivity" />
+        <!--<activity android:name=".View.BreachFragment" />-->
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

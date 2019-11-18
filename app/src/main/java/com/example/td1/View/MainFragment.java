@@ -3,8 +3,6 @@ package com.example.td1.View;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +49,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                controller.onFilter(newText);
+                //controller.onFilter(newText);
                 return true;
             }
         });
@@ -92,9 +90,16 @@ public class MainFragment extends Fragment {
 
 
     public void navigateToDetail(String json) {
-        Intent breachIntent = new Intent(this.getContext(), BreachActivity.class);
-        breachIntent.putExtra(Constants.current_breach_intent_key, json);
-        startActivity(breachIntent);
+        MainActivity mainActivity = (MainActivity) getActivity();
+//        mainActivity.goTo();
+//        Intent breachIntent = new Intent(this.getContext(), BreachFragment.class);
+//        breachIntent.putExtra(Constants.current_breach_intent_key, json);
+//        startActivity(breachIntent);
+        BreachFragment breachFragment = new BreachFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.current_breach_intent_key, json);
+        breachFragment.setArguments(bundle);
+        mainActivity.goToWithBackStack(breachFragment);
     }
 
     public void displayToast(String message)

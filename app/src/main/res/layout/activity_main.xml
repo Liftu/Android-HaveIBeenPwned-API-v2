@@ -8,8 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/fragment_main"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:name="com.example.td1.View.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
