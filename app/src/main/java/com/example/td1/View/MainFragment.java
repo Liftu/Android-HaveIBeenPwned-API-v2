@@ -36,7 +36,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) view.findViewById(R.id.mainProgressBar);
 
         searchBar = (SearchView) view.findViewById(R.id.searchViewBar);
 
@@ -45,11 +45,6 @@ public class MainFragment extends Fragment {
 
         return view;
     }
-
-//    public void updateDesignWhenUserClickedBottomView(String request){
-//        this.refreshProjects(request);
-//    }
-
 
     @Override
     public void onStart() {
@@ -101,10 +96,6 @@ public class MainFragment extends Fragment {
 
     public void navigateToDetail(String json) {
         MainActivity mainActivity = (MainActivity) getActivity();
-//        mainActivity.goTo();
-//        Intent breachIntent = new Intent(this.getContext(), BreachFragment.class);
-//        breachIntent.putExtra(Constants.current_breach_intent_key, json);
-//        startActivity(breachIntent);
         BreachFragment breachFragment = new BreachFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.current_breach_intent_key, json);

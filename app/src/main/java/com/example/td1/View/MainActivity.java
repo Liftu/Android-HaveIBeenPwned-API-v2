@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         switch (menuItem) {
             case R.id.action_list:
                 if (!(currentFragment instanceof MainFragment)) {
-                    goToWithBackStack(new MainFragment());
+                    goTo(new MainFragment());
                 }
                 break;
 
@@ -62,10 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_graph:
-//                if (!(currentFragment instanceof graphFragment)) {
-//                    goToWithBackStack(new graphFragment);
-//                }
-                //this.mainFragment.updateDesignWhenUserClickedBottomView(MainFragment.REQUEST_GRAPH);
+                if (!(currentFragment instanceof GraphFragment)) {
+                    goTo(new GraphFragment());
+                }
                 break;
 
         }

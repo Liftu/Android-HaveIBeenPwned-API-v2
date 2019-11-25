@@ -1,21 +1,18 @@
 package com.example.td1.Controller;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.example.td1.Model.Breaches;
 import com.example.td1.Model.HibpRestAPI;
-import com.example.td1.View.MainActivity;
+import com.example.td1.View.GraphFragment;
 import com.example.td1.View.MainFragment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,16 +20,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainController {
+public class GraphController {
 
     private static final String BASE_URL = "https://haveibeenpwned.com/api/v3/";
-    private MainFragment view;
+    private GraphFragment view;
     private SharedPreferences sharedPreferences;
     private  List<Breaches> breachesList;
 
 
-    public MainController(MainFragment view, SharedPreferences sharedPreferences) {
-        this.view = view;
+    public GraphController(GraphFragment fragment, SharedPreferences sharedPreferences) {
+        this.view = fragment;
         this.sharedPreferences = sharedPreferences;
     }
 
@@ -63,7 +60,7 @@ public class MainController {
                     getDataFromCache();
                 }
                 view.hideProgressBar();
-                view.showList(breachesList);
+                //view.showList(breachesList);
             }
 
             @Override
@@ -71,7 +68,7 @@ public class MainController {
                 view.displayToast("Connection failure");
                 getDataFromCache();
                 view.hideProgressBar();
-                view.showList(breachesList);
+                //view.showList(breachesList);
             }
         });
     }
@@ -99,13 +96,13 @@ public class MainController {
             if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
                 filteredBreachesList.add(breach);
         }
-        view.showList(filteredBreachesList);
+        //view.showList(filteredBreachesList);
     }
 
 
     public void onItemClick(Breaches item) {
         Gson gson = new Gson();
         String json = gson.toJson(item);
-        view.navigateToDetail(json);
+        //view.navigateToDetail(json);
     }
 }
