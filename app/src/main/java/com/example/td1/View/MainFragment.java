@@ -1,6 +1,5 @@
 package com.example.td1.View;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.td1.Controller.Constants;
-import com.example.td1.Controller.Controller;
+import com.example.td1.Controller.MainController;
 import com.example.td1.Model.Breaches;
 import com.example.td1.R;
 
@@ -30,31 +29,18 @@ public class MainFragment extends Fragment {
     private SearchView searchBar;
     private ProgressBar progressBar;
 
-    private Controller controller;
+    private MainController controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         searchBar = (SearchView) view.findViewById(R.id.searchViewBar);
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //controller.onFilter(newText);
-                return true;
-            }
-        });
-
-        controller = new Controller(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
+        controller = new MainController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
         controller.start();
 
         return view;
@@ -63,6 +49,30 @@ public class MainFragment extends Fragment {
 //    public void updateDesignWhenUserClickedBottomView(String request){
 //        this.refreshProjects(request);
 //    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                controller.onFilter(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        searchBar.setOnQueryTextListener(null);
+    }
 
     public void showList(List<Breaches> breachesList) {
         if (breachesList != null) {

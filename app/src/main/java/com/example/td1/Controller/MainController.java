@@ -23,7 +23,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Controller {
+public class MainController {
 
     private static final String BASE_URL = "https://haveibeenpwned.com/api/v2/";
     private MainFragment view;
@@ -31,7 +31,7 @@ public class Controller {
     private  List<Breaches> breachesList;
 
 
-    public Controller(MainFragment view, SharedPreferences sharedPreferences) {
+    public MainController(MainFragment view, SharedPreferences sharedPreferences) {
         this.view = view;
         this.sharedPreferences = sharedPreferences;
     }
