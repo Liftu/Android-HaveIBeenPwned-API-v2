@@ -1,19 +1,23 @@
 package com.example.td1.Controller;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.example.td1.Model.Breaches;
 import com.example.td1.Model.HibpRestAPI;
 import com.example.td1.View.GraphFragment;
-import com.example.td1.View.MainFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,13 +27,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GraphController {
 
     private static final String BASE_URL = "https://haveibeenpwned.com/api/v3/";
-    private GraphFragment view;
+    private GraphFragment fragment;
     private SharedPreferences sharedPreferences;
     private  List<Breaches> breachesList;
 
 
     public GraphController(GraphFragment fragment, SharedPreferences sharedPreferences) {
-        this.view = fragment;
+        this.fragment = fragment;
         this.sharedPreferences = sharedPreferences;
     }
 
@@ -45,30 +49,43 @@ public class GraphController {
 
         HibpRestAPI gerritAPI = retrofit.create(HibpRestAPI.class);
 
-        view.showProgressBar();
+        fragment.showProgressBar();
+        fragment.hideBarChart();
         Call<List<Breaches>> call = gerritAPI.getBreachesList();
         call.enqueue(new Callback<List<Breaches>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<List<Breaches>> call, Response<List<Breaches>> response) {
                 if(response.isSuccessful()) {
-//                    view.displayToast("Connection successfull");
+//                    fragment.displayToast("Connection successfull");
                     breachesList = response.body();
                     storeDataToCache();
                 } else {
-                    view.displayToast("Connection failure");
+                    fragment.displayToast("Connection failure");
                     System.out.println(response.errorBody());
                     getDataFromCache();
                 }
-                view.hideProgressBar();
-                //view.showList(breachesList);
+
+                if (breachesList != null)
+                    for (Breaches breach : breachesList)
+                        breach.setBreachLocalDate(LocalDate.parse(breach.getBreachDate()));
+
+                fragment.updateGraph(breachesList);
+                fragment.hideProgressBar();
+                fragment.showBarChart();
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onFailure(Call<List<Breaches>> call, Throwable t) {
-                view.displayToast("Connection failure");
+                fragment.displayToast("Connection failure");
                 getDataFromCache();
-                view.hideProgressBar();
-                //view.showList(breachesList);
+                if (breachesList != null)
+                    for (Breaches breach : breachesList)
+                        breach.setBreachLocalDate(LocalDate.parse(breach.getBreachDate()));
+                fragment.updateGraph(breachesList);
+                fragment.hideProgressBar();
+                fragment.showBarChart();
             }
         });
     }
@@ -89,20 +106,14 @@ public class GraphController {
     }
 
 
-    public void onFilter(String filtre) {
-        List<Breaches> filteredBreachesList = new ArrayList<>();
-        for (Breaches breach : breachesList)
-        {
-            if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
-                filteredBreachesList.add(breach);
-        }
-        //view.showList(filteredBreachesList);
-    }
-
-
-    public void onItemClick(Breaches item) {
-        Gson gson = new Gson();
-        String json = gson.toJson(item);
-        //view.navigateToDetail(json);
-    }
+//    public void onFilter(String filtre) {
+//        List<Breaches> filteredBreachesList = new ArrayList<>();
+//        for (Breaches breach : breachesList)
+//        {
+//            if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
+//                filteredBreachesList.add(breach);
+//        }
+//        fragment.showList(filteredBreachesList);
+//        fragment.updateGraph(breachList);
+//    }
 }

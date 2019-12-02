@@ -18,7 +18,12 @@ import com.example.td1.Controller.GraphController;
 import com.example.td1.Controller.MainController;
 import com.example.td1.Model.Breaches;
 import com.example.td1.R;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
@@ -26,15 +31,19 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.data.Entry;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import androidx.annotation.RequiresApi;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class GraphFragment extends Fragment {
     private ProgressBar progressBar;
-    private LineChart lineChart;
+    private BarChart barChart;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -45,7 +54,8 @@ public class GraphFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.graphProgressBar);
-        lineChart = (LineChart) view.findViewById(R.id.lineChart);
+        barChart = (BarChart) view.findViewById(R.id.barChart);
+
         controller = new GraphController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
         controller.start();
 
@@ -109,55 +119,38 @@ public class GraphFragment extends Fragment {
 //        mainActivity.goToWithBackStack(breachFragment);
 //    }
 
+    public void updateGraph(List<Breaches> breachesList) {
+        if (breachesList != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                breachesList.sort(Comparator.comparing(Breaches::getBreachLocalDate, (d1, d2) -> {
+                    return d1.compareTo(d2);
+                }));
+            }
+
+            List<BarEntry> barEntries = new ArrayList<BarEntry>();
+            int i = 0;
+            for (Breaches breach : breachesList) {
+                i++;
+                barEntries.add(new BarEntry(i, breach.getPwnCount()));
+            }
+
+            BarDataSet set = new BarDataSet(barEntries, "BarDataSet");
+            BarData data = new BarData(set);
+            data.setBarWidth(0.9f);
+            barChart.setData(data);
+            barChart.setFitBars(true);
+            barChart.invalidate();
+            //            setData(10, 102.0f);
+//
+//            BarChartSet set;
+//            if (barChart.getData() != null && barChart.getData().getDataSetCount() > 0) {
+//                set = (BarChart) barChart.getData().getDataSetByIndex(0);
+//                //set.setValues();
+//            }
+        }
+    }
+
     private void setData(int count, float range) {
-
-        ArrayList<Entry> values = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * (range + 1)) + 20;
-            values.add(new Entry(i, val));
-        }
-
-        LineDataSet set1;
-
-        if (lineChart.getData() != null &&
-                lineChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            lineChart.getData().notifyDataChanged();
-            lineChart.notifyDataSetChanged();
-        } else {
-            // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet 1");
-
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            set1.setCubicIntensity(0.2f);
-            set1.setDrawFilled(true);
-            set1.setDrawCircles(false);
-            set1.setLineWidth(1.8f);
-            set1.setCircleRadius(4f);
-            set1.setCircleColor(Color.WHITE);
-            set1.setHighLightColor(Color.rgb(244, 117, 117));
-            set1.setColor(Color.WHITE);
-            set1.setFillColor(Color.WHITE);
-            set1.setFillAlpha(100);
-            set1.setDrawHorizontalHighlightIndicator(false);
-            set1.setFillFormatter(new IFillFormatter() {
-                @Override
-                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                    return lineChart.getAxisLeft().getAxisMinimum();
-                }
-            });
-
-            // create a data object with the data sets
-            LineData data = new LineData(set1);
-            //data.setValueTypeface(tfLight);
-            data.setValueTextSize(9f);
-            data.setDrawValues(false);
-
-            // set data
-            lineChart.setData(data);
-        }
     }
 
     public void displayToast(String message)
@@ -175,4 +168,11 @@ public class GraphFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
     }
 
+    public void showBarChart() {
+        barChart.setVisibility(View.VISIBLE);
+    }
+
+    public void hideBarChart() {
+        barChart.setVisibility(View.GONE);
+    }
 }
