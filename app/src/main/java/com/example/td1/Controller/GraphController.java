@@ -105,6 +105,11 @@ public class GraphController {
             breachesList = new ArrayList<Breaches>();
     }
 
+    public void onItemClick(int item) {
+        Gson gson = new Gson();
+        String json = gson.toJson(breachesList.get(item));
+        fragment.navigateToDetail(json);
+    }
 
 //    public void onFilter(String filtre) {
 //        List<Breaches> filteredBreachesList = new ArrayList<>();

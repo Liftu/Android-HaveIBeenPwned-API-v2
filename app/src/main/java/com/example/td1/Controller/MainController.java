@@ -28,7 +28,7 @@ public class MainController {
     private static final String BASE_URL = "https://haveibeenpwned.com/api/v3/";
     private MainFragment fragment;
     private SharedPreferences sharedPreferences;
-    private  List<Breaches> breachesList;
+    private List<Breaches> breachesList;
 
 
     public MainController(MainFragment fragment, SharedPreferences sharedPreferences) {
