@@ -92,7 +92,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
             }
 
             BarDataSet set = new BarDataSet(barEntries, "Breaches over time");
-            set.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary700));
+            set.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary100));
             BarData data = new BarData(set);
             data.setHighlightEnabled(true);
             barChart.setData(data);
