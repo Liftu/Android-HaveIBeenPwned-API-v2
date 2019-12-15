@@ -108,15 +108,4 @@ public class BarChartController {
         String json = gson.toJson(breachesList.get(item));
         fragment.navigateToDetail(json);
     }
-
-//    public void onFilter(String filtre) {
-//        List<Breaches> filteredBreachesList = new ArrayList<>();
-//        for (Breaches breach : breachesList)
-//        {
-//            if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
-//                filteredBreachesList.add(breach);
-//        }
-//        fragment.showList(filteredBreachesList);
-//        fragment.updateGraph(breachList);
-//    }
 }

@@ -45,15 +45,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         progressBar = (ProgressBar) view.findViewById(R.id.graphProgressBar);
         barChart = (BarChart) view.findViewById(R.id.barChart);
         barChart.setOnChartValueSelectedListener(this);
-//        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(barChart);
-//
-//        XAxis xAxis = barChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        //xAxis.setTypeface(tfLight);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setGranularity(1f); // only intervals of 1 day
-//        xAxis.setLabelCount(7);
-//        xAxis.setValueFormatter(xAxisFormatter);
+        barChart.getDescription().setEnabled(false);
 
         controller = new BarChartController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
         controller.start();
@@ -99,11 +91,10 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
                 barEntries.add(new BarEntry(i, breach.getPwnCount()));
             }
 
-            BarDataSet set = new BarDataSet(barEntries, "BarDataSet");
+            BarDataSet set = new BarDataSet(barEntries, "Breaches over time");
             set.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary700));
             BarData data = new BarData(set);
             data.setHighlightEnabled(true);
-            //data.setBarWidth(0.9f);
             barChart.setData(data);
             barChart.setFitBars(true);
             barChart.invalidate();
@@ -115,7 +106,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 
         if (e == null)
             return;
-        controller.onItemClick((int)e.getX()-1);
+        //controller.onItemClick((int)e.getX()-1);
     }
 
     @Override

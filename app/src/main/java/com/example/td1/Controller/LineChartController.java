@@ -49,7 +49,7 @@ public class LineChartController {
         HibpRestAPI gerritAPI = retrofit.create(HibpRestAPI.class);
 
         fragment.showProgressBar();
-        fragment.hideBarChart();
+        fragment.hideLineChart();
         Call<List<Breaches>> call = gerritAPI.getBreachesList();
         call.enqueue(new Callback<List<Breaches>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -71,7 +71,7 @@ public class LineChartController {
 
                 fragment.updateGraph(breachesList);
                 fragment.hideProgressBar();
-                fragment.showBarChart();
+                fragment.showLineChart();
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -84,7 +84,7 @@ public class LineChartController {
                         breach.setBreachLocalDate(LocalDate.parse(breach.getBreachDate()));
                 fragment.updateGraph(breachesList);
                 fragment.hideProgressBar();
-                fragment.showBarChart();
+                fragment.showLineChart();
             }
         });
     }
@@ -109,15 +109,4 @@ public class LineChartController {
         String json = gson.toJson(breachesList.get(item));
         fragment.navigateToDetail(json);
     }
-
-//    public void onFilter(String filtre) {
-//        List<Breaches> filteredBreachesList = new ArrayList<>();
-//        for (Breaches breach : breachesList)
-//        {
-//            if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
-//                filteredBreachesList.add(breach);
-//        }
-//        fragment.showList(filteredBreachesList);
-//        fragment.updateGraph(breachList);
-//    }
 }

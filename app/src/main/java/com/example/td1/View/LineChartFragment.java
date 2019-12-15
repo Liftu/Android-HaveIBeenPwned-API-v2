@@ -1,5 +1,6 @@
 package com.example.td1.View;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,14 @@ import com.example.td1.Controller.LineChartController;
 import com.example.td1.Model.Breaches;
 import com.example.td1.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -32,7 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class LineChartFragment extends Fragment implements OnChartValueSelectedListener {
     private ProgressBar progressBar;
-    private BarChart barChart;
+    private LineChart lineChart;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Breaches> sortedBreachesList;
@@ -41,20 +46,12 @@ public class LineChartFragment extends Fragment implements OnChartValueSelectedL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bar_chart, container, false);
+        View view = inflater.inflate(R.layout.fragment_line_chart, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.graphProgressBar);
-        barChart = (BarChart) view.findViewById(R.id.barChart);
-        barChart.setOnChartValueSelectedListener(this);
-//        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(barChart);
-//
-//        XAxis xAxis = barChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        //xAxis.setTypeface(tfLight);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setGranularity(1f); // only intervals of 1 day
-//        xAxis.setLabelCount(7);
-//        xAxis.setValueFormatter(xAxisFormatter);
+        lineChart = (LineChart) view.findViewById(R.id.lineChart);
+        lineChart.setOnChartValueSelectedListener(this);
+        lineChart.getDescription().setEnabled(false);
 
         controller = new LineChartController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
         controller.start();
@@ -93,21 +90,22 @@ public class LineChartFragment extends Fragment implements OnChartValueSelectedL
                 }));
             }
 
-            List<BarEntry> barEntries = new ArrayList<BarEntry>();
+            List<Entry> lineEntries = new ArrayList<Entry>();
             int i = 0;
             for (Breaches breach : breachesList) {
                 i++;
-                barEntries.add(new BarEntry(i, breach.getPwnCount()));
+                lineEntries.add(new Entry(i, breach.getPwnCount()));
             }
 
-            BarDataSet set = new BarDataSet(barEntries, "BarDataSet");
-            set.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary700));
-            BarData data = new BarData(set);
+            LineDataSet set = new LineDataSet(lineEntries, "Breaches over time");
+            set.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary100));
+            set.setCircleColor(Color.WHITE);
+            set.setCircleRadius(1.8f);
+
+            LineData data = new LineData(set);
             data.setHighlightEnabled(true);
-            //data.setBarWidth(0.9f);
-            barChart.setData(data);
-            barChart.setFitBars(true);
-            barChart.invalidate();
+            lineChart.setData(data);
+            lineChart.invalidate();
         }
     }
 
@@ -116,7 +114,7 @@ public class LineChartFragment extends Fragment implements OnChartValueSelectedL
 
         if (e == null)
             return;
-        controller.onItemClick((int)e.getX()-1);
+        //controller.onItemClick((int)e.getX()-1);
     }
 
     @Override
@@ -148,11 +146,11 @@ public class LineChartFragment extends Fragment implements OnChartValueSelectedL
         progressBar.setVisibility(View.GONE);
     }
 
-    public void showBarChart() {
-        barChart.setVisibility(View.VISIBLE);
+    public void showLineChart() {
+        lineChart.setVisibility(View.VISIBLE);
     }
 
-    public void hideBarChart() {
-        barChart.setVisibility(View.GONE);
+    public void hideLineChart() {
+        lineChart.setVisibility(View.GONE);
     }
 }
