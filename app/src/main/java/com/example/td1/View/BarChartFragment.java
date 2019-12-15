@@ -32,9 +32,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class BarChartFragment extends Fragment implements OnChartValueSelectedListener {
     private ProgressBar progressBar;
     private BarChart barChart;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private List<Breaches> sortedBreachesList;
+    private Entry lastEntryHighlighted;
 
     private BarChartController controller;
 
@@ -82,6 +81,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
                 breachesList.sort(Comparator.comparing(Breaches::getBreachLocalDate, (d1, d2) -> {
                     return d1.compareTo(d2);
                 }));
+                sortedBreachesList = breachesList;
             }
 
             List<BarEntry> barEntries = new ArrayList<BarEntry>();
@@ -103,15 +103,17 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
         if (e == null)
             return;
-        //controller.onItemClick((int)e.getX()-1);
+
+        displayToast(sortedBreachesList.get((int)e.getX()-1).getBreachDate() + " : " + sortedBreachesList.get((int)e.getX()-1).getTitle());
+        lastEntryHighlighted = e;
     }
 
     @Override
     public void onNothingSelected() {
-
+        // Si l'on clic une deuxieme fois sur l'element.
+        controller.onItemClick((int)lastEntryHighlighted.getX()-1);
     }
 
     public void navigateToDetail(String json) {
