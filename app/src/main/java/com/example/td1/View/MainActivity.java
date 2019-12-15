@@ -54,16 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.action_check:
-//                if (!(currentFragment instanceof checkFragment)) {
-//                    goToWithBackStack(new checkFragment);
-//                }
-                //goTo(new BreachFragment());
+            case R.id.action_line_chart:
+                if (!(currentFragment instanceof LineChartFragment)) {
+                    goTo(new LineChartFragment());
+                }
                 break;
 
-            case R.id.action_graph:
-                if (!(currentFragment instanceof GraphFragment)) {
-                    goTo(new GraphFragment());
+            case R.id.action_bar_chart:
+                if (!(currentFragment instanceof BarChartFragment)) {
+                    goTo(new BarChartFragment());
                 }
                 break;
 

@@ -6,14 +6,13 @@ import android.text.TextUtils;
 
 import com.example.td1.Model.Breaches;
 import com.example.td1.Model.HibpRestAPI;
-import com.example.td1.View.GraphFragment;
+import com.example.td1.View.BarChartFragment;
+import com.example.td1.View.LineChartFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +23,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GraphController {
+public class LineChartController {
 
     private static final String BASE_URL = "https://haveibeenpwned.com/api/v3/";
-    private GraphFragment fragment;
+    private LineChartFragment fragment;
     private SharedPreferences sharedPreferences;
     private  List<Breaches> breachesList;
 
 
-    public GraphController(GraphFragment fragment, SharedPreferences sharedPreferences) {
+    public LineChartController(LineChartFragment fragment, SharedPreferences sharedPreferences) {
         this.fragment = fragment;
         this.sharedPreferences = sharedPreferences;
     }

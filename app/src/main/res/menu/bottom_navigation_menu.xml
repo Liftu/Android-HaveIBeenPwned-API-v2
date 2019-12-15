@@ -11,18 +11,18 @@
         />
 
     <item
-        android:id="@+id/action_check"
+        android:id="@+id/action_line_chart"
         android:enabled="true"
-        android:icon="@drawable/ic_person_black_24dp"
-        android:title="@string/bottom_navigation_menu_check_email"
+        android:icon="@drawable/ic_line_chart_black_24dp"
+        android:title="@string/bottom_navigation_menu_line_chart"
         app:showAsAction="ifRoom"
         />
 
     <item
-        android:id="@+id/action_graph"
+        android:id="@+id/action_bar_chart"
         android:enabled="true"
-        android:icon="@drawable/ic_bubble_chart_black_24dp"
-        android:title="@string/bottom_navigation_menu_graph"
+        android:icon="@drawable/ic_bar_chart_black_24dp"
+        android:title="@string/bottom_navigation_menu_bar_chart"
         app:showAsAction="ifRoom"
         />
 

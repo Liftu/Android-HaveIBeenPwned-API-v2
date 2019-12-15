@@ -1,71 +1,62 @@
 package com.example.td1.View;
 
-import android.graphics.Color;
-import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.td1.Controller.Constants;
-import com.example.td1.Controller.GraphController;
-import com.example.td1.Controller.MainController;
+import com.example.td1.Controller.BarChartController;
+import com.example.td1.Controller.LineChartController;
 import com.example.td1.Model.Breaches;
 import com.example.td1.R;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.MPPointF;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-
 import static android.content.Context.MODE_PRIVATE;
 
-public class GraphFragment extends Fragment implements OnChartValueSelectedListener {
+public class LineChartFragment extends Fragment implements OnChartValueSelectedListener {
     private ProgressBar progressBar;
     private BarChart barChart;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Breaches> sortedBreachesList;
 
-    private GraphController controller;
+    private LineChartController controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_graph, container, false);
+        View view = inflater.inflate(R.layout.fragment_bar_chart, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.graphProgressBar);
         barChart = (BarChart) view.findViewById(R.id.barChart);
         barChart.setOnChartValueSelectedListener(this);
+//        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(barChart);
+//
+//        XAxis xAxis = barChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        //xAxis.setTypeface(tfLight);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setGranularity(1f); // only intervals of 1 day
+//        xAxis.setLabelCount(7);
+//        xAxis.setValueFormatter(xAxisFormatter);
 
-        controller = new GraphController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
+        controller = new LineChartController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
         controller.start();
 
         return view;
