@@ -3,7 +3,8 @@ Just an Android interface to the Have I Been Pwned API
 
 ## Presentation
 Une application toute simple utilisant l'API de site Have I Been Pwned afin d'afficher la liste des differents leaks ayants été référancés sous forme de liste triée par nombre d'elements ou sous forme de graphique linéaire ou de graphique avec barres triées par dates.
-je me suis servis de mon application réalisé durant le cours de l'année derniére afin d'y ajouter les nouvelles fonctionnalités requises. J'en ais également profité pour changer le théme de l'application (Ce qui explique le changement de couleurs et la disparition de la barre de navigation sur certaines screenshots).
+
+Je me suis servis de mon application réalisé durant le cours de l'année derniére afin d'y ajouter les nouvelles fonctionnalités requises. J'en ais également profité pour changer le théme de l'application (Ce qui explique le changement de couleurs et la disparition de la barre de navigation sur certaines screenshots).
 
 ## Consignes
 - Fragments (Fait)
