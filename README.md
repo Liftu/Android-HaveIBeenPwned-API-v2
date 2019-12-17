@@ -51,6 +51,6 @@ Je me suis servis de mon application réalisé durant le cours de l'année derni
 ## Ce que j'ai appris
 
 Cette année, j'ai appris a :
-- Utiliser les fragments afin de changer l'affiche de l'application tout en restant sur la meme activité.
+- Utiliser les fragments afin de changer l'affichage de l'application tout en restant sur la meme activité.
 - Utiliser une barre de navigation pour naviguer entre les fragments.
 - Utiliser la librairie MPAndroidChart afin de creer des diagramme.
