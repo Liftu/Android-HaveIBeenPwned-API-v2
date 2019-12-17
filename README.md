@@ -14,23 +14,23 @@ Je me suis servis de mon application réalisé durant le cours de l'année derni
 - Git (Fait)
 
 ## Fonctionnalites
-- Utilisation d'une BottomNavigationBar pour naviguer entre les differents fragments
-- Affichage d'une barre de chargement sur chaque fragment le temps que la requete API s'effectue
+- Utilisation d'une BottomNavigationBar pour naviguer entre les differents fragments.
+- Affichage d'une barre de chargement sur chaque fragment le temps que la requete API s'effectue.
 
 <img src="readme-img/screen_loading.png" alt="screen loading">
 
-- Affichage de la liste des leaks sous forme de cartes les unes a la suite des autres
+- Affichage de la liste des leaks sous forme de cartes les unes a la suite des autres.
 - Utilisation d'une barre de recherche permettant de filtrer les leaks par titre ou nom de domaine.
 
 <img src="readme-img/search_bar.png" alt="search bar">
 
-- Utilisation du cache permettant de stocker la liste des leaks, afin de les afficher meme sans connexion (L'application affiche un toast pour prévenir si l'application n'a pas reussit a requeter l'API)
+- Utilisation du cache permettant de stocker la liste des leaks, afin de les afficher meme sans connexion (L'application affiche un toast pour prévenir si l'application n'a pas reussit a requeter l'API).
 
 <img src="readme-img/connection_success.png" alt="connection success"> <img src="readme-img/connection_failure.png" alt="connection failure">
 
 - Affichage d'une carte contenant les informations detaillées d'un element de la liste lorsque que l'on clic sur un.
   - Affichage du logo, titre, nom de domaine, nombre de données leakés, date du leak et les types de données.
-  - Les types de données sont affichés via une ListView afin de pouvoir scroller s'il y en a trop pour etre affiché a l'écran
+  - Les types de données sont affichés via une ListView afin de pouvoir scroller s'il y en a trop pour etre affiché a l'écran.
   
 <img src="readme-img/fragment_detail.png" alt="second activity"> <img src="readme-img/fragment_detail_list_view.png" alt="second activity list view">
 
@@ -44,6 +44,13 @@ Je me suis servis de mon application réalisé durant le cours de l'année derni
 
 <img src="readme-img/graph_highlight.png" alt="graph highlight">
 
-- Il est egaement possible de faire apparaitre le fragment de vue detaillé d'une breach en appuyant une deuxiéme fois dessus aprés avoir séléctionné un élément
+- Il est egaement possible de faire apparaitre le fragment de vue detaillé d'une breach en appuyant une deuxiéme fois dessus aprés avoir séléctionné un élément.
 
 <img src="readme-img/graph_double_tap.png" alt="graph double tap">
+
+## Ce que j'ai appris
+
+Cette année, j'ai appris a :
+- Utiliser les fragments afin de changer l'affiche de l'application tout en restant sur la meme activité.
+- Utiliser une barre de navigation pour naviguer entre les fragments.
+- Utiliser la librairie MPAndroidChart afin de creer des diagramme.
