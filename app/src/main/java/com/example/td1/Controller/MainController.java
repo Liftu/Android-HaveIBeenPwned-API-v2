@@ -23,16 +23,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Controller {
+public class MainController {
 
-    private static final String BASE_URL = "https://haveibeenpwned.com/api/v2/";
-    private MainFragment view;
+    private static final String BASE_URL = "https://haveibeenpwned.com/api/v3/";
+    private MainFragment fragment;
     private SharedPreferences sharedPreferences;
-    private  List<Breaches> breachesList;
+    private List<Breaches> breachesList;
 
 
-    public Controller(MainFragment view, SharedPreferences sharedPreferences) {
-        this.view = view;
+    public MainController(MainFragment fragment, SharedPreferences sharedPreferences) {
+        this.fragment = fragment;
         this.sharedPreferences = sharedPreferences;
     }
 
@@ -48,30 +48,30 @@ public class Controller {
 
         HibpRestAPI gerritAPI = retrofit.create(HibpRestAPI.class);
 
-        view.showProgressBar();
+        fragment.showProgressBar();
         Call<List<Breaches>> call = gerritAPI.getBreachesList();
         call.enqueue(new Callback<List<Breaches>>() {
             @Override
             public void onResponse(Call<List<Breaches>> call, Response<List<Breaches>> response) {
                 if(response.isSuccessful()) {
-                    view.displayToast("Connection successfull");
+//                    fragment.displayToast("Connection successfull");
                     breachesList = response.body();
                     storeDataToCache();
                 } else {
-                    view.displayToast("Connection failure");
+                    fragment.displayToast("Connection failure");
                     System.out.println(response.errorBody());
                     getDataFromCache();
                 }
-                view.hideProgressBar();
-                view.showList(breachesList);
+                fragment.hideProgressBar();
+                fragment.showList(breachesList);
             }
 
             @Override
             public void onFailure(Call<List<Breaches>> call, Throwable t) {
-                view.displayToast("Connection failure");
+                fragment.displayToast("Connection failure");
                 getDataFromCache();
-                view.hideProgressBar();
-                view.showList(breachesList);
+                fragment.hideProgressBar();
+                fragment.showList(breachesList);
             }
         });
     }
@@ -99,13 +99,13 @@ public class Controller {
             if (breach.getTitle().toLowerCase().contains(filtre.toLowerCase()) || breach.getName().toLowerCase().contains(filtre.toLowerCase()) || breach.getDomain().toLowerCase().contains(filtre.toLowerCase()))
                 filteredBreachesList.add(breach);
         }
-        view.showList(filteredBreachesList);
+        fragment.showList(filteredBreachesList);
     }
 
 
     public void onItemClick(Breaches item) {
         Gson gson = new Gson();
         String json = gson.toJson(item);
-        view.navigateToDetail(json);
+        fragment.navigateToDetail(json);
     }
 }

@@ -22,7 +22,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="6dip"
             android:adjustViewBounds="false"
-            android:background="#C5C5C5"
+            android:background="@color/colorPrimary100"
             android:contentDescription="TODO"
             android:cropToPadding="false"
             android:scaleType="fitCenter"

@@ -1,5 +1,7 @@
 package com.example.td1.Model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Breaches {
@@ -7,6 +9,7 @@ public class Breaches {
     private String Title;
     private String Domain;
     private String BreachDate;
+    private LocalDate BreachLocalDate;
     private String AddedDate;
     private int PwnCount;
     private String Description;
@@ -36,6 +39,10 @@ public class Breaches {
 
     public void setAddedDate(String addedDate) {
         AddedDate = addedDate;
+    }
+
+    public void setBreachLocalDate(LocalDate breachLocalDate) {
+        BreachLocalDate = breachLocalDate;
     }
 
     public void setPwnCount(int pwnCount) {
@@ -92,6 +99,10 @@ public class Breaches {
 
     public String getAddedDate() {
         return AddedDate;
+    }
+
+    public LocalDate getBreachLocalDate() {
+        return BreachLocalDate;
     }
 
     public int getPwnCount() {

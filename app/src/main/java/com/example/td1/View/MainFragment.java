@@ -1,10 +1,7 @@
 package com.example.td1.View;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +13,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.td1.Controller.Constants;
-import com.example.td1.Controller.Controller;
+import com.example.td1.Controller.MainController;
 import com.example.td1.Model.Breaches;
 import com.example.td1.R;
 
@@ -32,17 +29,26 @@ public class MainFragment extends Fragment {
     private SearchView searchBar;
     private ProgressBar progressBar;
 
-    private Controller controller;
+    private MainController controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) view.findViewById(R.id.mainProgressBar);
 
         searchBar = (SearchView) view.findViewById(R.id.searchViewBar);
+
+        controller = new MainController(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
+        controller.start();
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -55,16 +61,13 @@ public class MainFragment extends Fragment {
                 return true;
             }
         });
-
-        controller = new Controller(this, getContext().getSharedPreferences(Constants.user_sharedpreferences, MODE_PRIVATE));
-        controller.start();
-
-        return view;
     }
 
-//    public void updateDesignWhenUserClickedBottomView(String request){
-//        this.refreshProjects(request);
-//    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        searchBar.setOnQueryTextListener(null);
+    }
 
     public void showList(List<Breaches> breachesList) {
         if (breachesList != null) {
@@ -92,9 +95,12 @@ public class MainFragment extends Fragment {
 
 
     public void navigateToDetail(String json) {
-        Intent breachIntent = new Intent(this.getContext(), BreachActivity.class);
-        breachIntent.putExtra(Constants.current_breach_intent_key, json);
-        startActivity(breachIntent);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        BreachFragment breachFragment = new BreachFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.current_breach_intent_key, json);
+        breachFragment.setArguments(bundle);
+        mainActivity.goToWithBackStack(breachFragment);
     }
 
     public void displayToast(String message)

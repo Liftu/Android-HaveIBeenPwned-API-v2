@@ -2,7 +2,7 @@ package com.example.td1.View;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,9 @@ import com.example.td1.R;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,26 +23,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.activity_main_bottom_navigation);
-        bottomNavigationView.setOnNavigationItemReselectedListener(item -> updateMainFragment(item.getItemId()));
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> updateMainFragment(item.getItemId()));
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_main, new MainFragment());
+        goTo(new MainFragment());
+    }
+
+    public void goTo(Fragment fragment) {
+        currentFragment = fragment;
+        fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
         ft.commit();
     }
 
-    private Boolean updateMainFragment(Integer integer) {
-        switch (integer) {
+    public void goToWithBackStack(Fragment fragment) {
+        currentFragment = fragment;
+        fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.addToBackStack(null);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+    }
+
+    private Boolean updateMainFragment(Integer menuItem) {
+        switch (menuItem) {
             case R.id.action_list:
-                //this.mainFragment.updateDesignWhenUserClickedBottomView(MainFragment.REQUEST_LIST);
+                if (!(currentFragment instanceof MainFragment)) {
+                    goTo(new MainFragment());
+                }
                 break;
 
-            case R.id.action_check:
-                //this.mainFragment.updateDesignWhenUserClickedBottomView(MainFragment.REQUEST_check);
+            case R.id.action_line_chart:
+                if (!(currentFragment instanceof LineChartFragment)) {
+                    goTo(new LineChartFragment());
+                }
                 break;
 
-            case R.id.action_graph:
-                //this.mainFragment.updateDesignWhenUserClickedBottomView(MainFragment.REQUEST_GRAPH);
+            case R.id.action_bar_chart:
+                if (!(currentFragment instanceof BarChartFragment)) {
+                    goTo(new BarChartFragment());
+                }
                 break;
 
         }
