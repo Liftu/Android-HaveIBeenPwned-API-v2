@@ -58,29 +58,6 @@ public class LineChartFragment extends Fragment implements OnChartValueSelectedL
         return view;
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                controller.onFilter(newText);
-//                return true;
-//            }
-//        });
-//    }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        searchBar.setOnQueryTextListener(null);
-//    }
-
     public void updateGraph(List<Breaches> breachesList) {
         if (breachesList != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
